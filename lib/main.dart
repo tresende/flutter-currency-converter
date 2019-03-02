@@ -6,9 +6,33 @@ import 'dart:convert';
 const request = 'https://api.hgbrasil.com/finance?key=8004b0aa';
 
 void main() async {
-  http.Response response = await http.get(request);
-  print(json.decode(response.body)["results"]["currencies"]["USD"]);
+  print(await getData());
+
   runApp(MaterialApp(
-    home: Container(),
+    home: Home(),
   ));
+}
+
+Future<Map> getData() async {
+  http.Response response = await http.get(request);
+  return json.decode(response.body);
+}
+
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.amber,
+        centerTitle: true,
+        title: Text("\$ Conversor \$"),
+      ),
+    );
+  }
 }
