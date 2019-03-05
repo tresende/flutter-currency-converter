@@ -1,12 +1,14 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-const request = 'https://api.hgbrasil.com/finance?key=8004b0aa';
+const request = 'https://api.hgbrasil.com/finance?key=';
 
 void main() async {
+  await DotEnv().load('.env');
   print(await getData());
-
   runApp(MaterialApp(
     home: Home(),
     theme: ThemeData(hintColor: Colors.amber, primaryColor: Colors.white),
@@ -14,7 +16,8 @@ void main() async {
 }
 
 Future<Map> getData() async {
-  http.Response response = await http.get(request);
+  Map env = DotEnv().env;
+  http.Response response = await http.get(request + env['API_KEY']);
   return json.decode(response.body);
 }
 
